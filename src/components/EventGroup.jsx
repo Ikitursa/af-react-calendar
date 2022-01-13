@@ -1,10 +1,9 @@
 import EventRow from "./EventRow";
 
-export default function EventGroup({group}){
+export default function EventGroup({group}) {
     return (
         <div className="group-wrapper">
-            <div className="group-title">{ group.name }<span className="group-date">{ group.groupTimeSpan }</span>
-            </div>
+            <div className="group-title">{group.name}</div>
             <div className="event-group">
 
                 {
