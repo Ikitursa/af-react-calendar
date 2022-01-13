@@ -1,26 +1,57 @@
-import {useContext} from "react";
+import {useContext, useState} from "react";
 import {UserContext} from "../contexts/UserContext";
+import {useGoogleLogin} from 'react-google-login';
 
 
 export default function Login() {
 
-    const {user,setUser} = useContext(UserContext)
+    const {setUser} = useContext(UserContext)
 
-    const logUser = () => {
-        const user = {
-            name: 'Maja',
-            lastName: 'Majić'
-        }
+    const clientId = process.env.REACT_APP_API_CLIENT_ID
+
+
+
+    const responseGoogle = (response) => {
+        console.log('GUUUUGL', response);
+    }
+
+    const [errorMessage, setErrorMessage] = useState('')
+
+    const handleLogin = (user) => {
         setUser(user)
     }
+
+    const handleFailure = (failureResponse) => {
+        setErrorMessage(failureResponse.error)
+    }
+
+    const { signIn } = useGoogleLogin({
+        onSuccess:handleLogin,
+        clientId,
+        cookiePolicy:'single_host_origin',
+        onFailure:handleFailure
+
+    })
+
     return (
-        <div>
-            <h2>Login</h2>
-            <div className="container">
-                <div className="wrapper-card">
-                    <p>To use this calendar you first need to log in with google</p>
-                    <button className="login" onClick={logUser}>Login with google</button>
-                </div>
+        <div className="container">
+            <div className="wrapper-card login">
+
+                <p>To use this calendar you first need to log in with google</p>
+
+
+                <button className="sign-in" onClick={signIn}>Sign in</button>
+                {/*<GoogleLogin
+                    clientId={clientId}
+                    buttonText="Login"
+                    onSuccess={handleLogin}
+                    onFailure={handleFailure}
+
+                    cookiePolicy={'single_host_origin'}
+                />*/}
+                {
+                    errorMessage && <div>{errorMessage}</div>
+                }
             </div>
         </div>
     );

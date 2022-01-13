@@ -5,6 +5,7 @@ import {forIn, groupBy} from "lodash";
 
 import CalendarRangeSelector from "./CalendarRangeSelector";
 import EventGroup from "./EventGroup";
+import HeaderBar from "./HeaderBar";
 
 
 /**
@@ -113,8 +114,7 @@ export default function Calendar() {
 
     return (
         <div className="calendar">
-            <h2>Calendar</h2>
-
+<HeaderBar/>
             <div className="container">
                 <div className="menu-wrapper">
                     <div className="display-menu">
@@ -136,34 +136,9 @@ export default function Calendar() {
 
                 <div className="wrapper-card">
 
-
                     {groupedEvents ? groupedEvents.map((group, index) => {
                         return (<EventGroup group={group} key={index}/>)
                     }) : ''}
-
-
-                    {/*
-                //EVENT GROUP
-                <div className="group-wrapper">
-                    <div className="group-title">Week 3<span className="group-date">17.1.2022 - 23.1.2022</span>
-                    </div>
-                    <div className="event-group">
-
-                        <div className="event-row">
-                            <div className="event-information">
-                                <div className="event-name">EVENT NAME</div>
-                                <div className="event-time-date">
-                                    <div className="date">17.1.2022</div>
-                                    <div className="time">9:00 - 10:00</div>
-                                </div>
-                            </div>
-                            <div className="event-controls">
-                                <button className="event-button">Delete</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>*/}
 
                 </div>
             </div>
