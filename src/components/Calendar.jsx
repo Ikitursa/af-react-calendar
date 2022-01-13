@@ -1,10 +1,31 @@
 import {useState, useEffect} from 'react'
 import axios from "axios";
-import isToday from 'date-fns/isToday'
-import parseISO from 'date-fns/parseISO'
-import {addDays, endOfDay, format, isWithinInterval, startOfToday} from "date-fns";
+import {addDays, endOfDay, format, isWithinInterval, startOfToday, parseISO} from "date-fns";
+import {forIn, groupBy} from "lodash";
 
+import CalendarRangeSelector from "./CalendarRangeSelector";
 import EventGroup from "./EventGroup";
+
+
+/**
+ * @param {Object} options
+ * @param {Array} options.eventSet - List of prefiltered events
+ * @param {String} options.groupByTerm - The term by which the events will be grouped
+ * @param {String} [options.namePrefix]
+ */
+function groupPreparer(options) {
+    let groups = []
+    const groupedEvents = groupBy(options.eventSet, (event) => {
+        return format(parseISO(event.start.dateTime), options.groupByTerm)
+    })
+    forIn(groupedEvents, (events, name) => {
+        groups.push({
+            name: options.namePrefix ? `${options.namePrefix} ${name}` : name,
+            events
+        })
+    })
+    return groups
+}
 
 
 export default function Calendar() {
@@ -13,101 +34,115 @@ export default function Calendar() {
     const [groupedEvents, setGroupedEvents] = useState(null)
     const [selectedRange, setSelectedRange] = useState(7)
 
+    const ranges = [1, 7, 30]
+
     const fetchEvents = () => {
         const calendarId = process.env.REACT_APP_API_CALENDAR_ID
         const apiKey = process.env.REACT_APP_API_KEY
         const url = `${process.env.REACT_APP_API_BASE_URL}/${calendarId}/events?key=${apiKey}`
 
         axios.get(url).then(response => {
-            console.log(response)
+
             setCalendarEvents(response.data.items)
+
         }).catch(error => {
             console.log(error)
         })
     }
 
     const groupEvents = () => {
-        console.log('entered groupEvents')
+
         if (calendarEvents) {
-            console.log('calendarEvents is TRUE')
+
             let groups = []
 
             const startDate = startOfToday()
             const timeSpan = {
                 start: startDate,
                 end: endOfDay(addDays(startDate, selectedRange - 1))
-
             }
-            console.log('Timespan is:', timeSpan)
-            let filteredEvents = calendarEvents.filter(event => {
+
+            const filteredEvents = calendarEvents.filter(event => {
                 return isWithinInterval((parseISO(event.start.dateTime)), timeSpan)
             })
-            console.log('filtered events----->>>', filteredEvents)
 
 
-       if (selectedRange/* === 1*/) {
+            switch (selectedRange) {
 
-            groups = [
-                {
-                    name: 'Today',
-                    //it will show the proper group date or timespan later
-                    groupTimeSpan: format(startOfToday(),'dd-MM-yyyy'),
-                    events: filteredEvents
-                }
-            ]
+                case 1:
+                    groups = [
+                        {
+                            name: 'Today',
+                            events: filteredEvents
+                        }
+                    ]
+
+                    break;
+                case 7:
+
+                    groups = groupPreparer({
+                        eventSet: filteredEvents,
+                        groupByTerm: 'dd.MM.yyyy'
+                    })
+
+                    break;
+
+                case 30:
+
+                    groups = groupPreparer({
+                        eventSet: filteredEvents,
+                        groupByTerm: 'ww - yyyy',
+                        namePrefix: 'Week'
+                    })
+
+                    break;
+            }
 
 
-        } else {
-            groups = [
-                {
-                    name: '13.01.2022.',
-                    groupTimeSpan: 'dd-MM-yyyy',
-                    events: [{}]
-                },
-                {
-                    name: '14.01.2022.',
-                    groupTimeSpan: 'dd-MM-yyyy',
-                    events: [{}]
-                }
-            ]
+            setGroupedEvents(groups)
         }
-
-        setGroupedEvents(groups)
     }
-}
 
-useEffect(() => {
-    fetchEvents()
-}, [])
+    useEffect(() => {
+        fetchEvents()
+    }, [])
 
-useEffect(() => {
-    groupEvents()
-}, [calendarEvents, selectedRange])
+    useEffect(() => {
+        groupEvents()
+    }, [calendarEvents, selectedRange])
 
-return (
-    <div className="calendar">
-        <h2>Calendar</h2>
+    return (
+        <div className="calendar">
+            <h2>Calendar</h2>
 
-        <div className="container">
-            <div className="menu-wrapper">
-                <div className="display-menu">
-                    <div className="display-option">1 Day</div>
-                    <div className="display-option active">7 Days</div>
-                    <div className="display-option">30 Days</div>
+            <div className="container">
+                <div className="menu-wrapper">
+                    <div className="display-menu">
+                        {
+                            ranges.map(range => {
+                                return (
+                                    <CalendarRangeSelector
+                                        key={range}
+                                        range={range} selectedRange={selectedRange}
+                                        updateRange={() => setSelectedRange(range)}
+                                    />
+                                )
+                            })
+                        }
+                    </div>
+                    <div onClick={fetchEvents} className="refresh">Refresh</div>
                 </div>
-                <div onClick={fetchEvents} className="refresh">Refresh</div>
-            </div>
 
 
-            <div className="wrapper-card">
+                <div className="wrapper-card">
 
 
-                { groupedEvents ? groupedEvents.map((group, index) => {
-                    return (<EventGroup group={group} key={index}/>)
-                }) : ''}
+                    {groupedEvents ? groupedEvents.map((group, index) => {
+                        return (<EventGroup group={group} key={index}/>)
+                    }) : ''}
 
 
-                {/*
+                    {/*
                 //EVENT GROUP
                 <div className="group-wrapper">
                     <div className="group-title">Week 3<span className="group-date">17.1.2022 - 23.1.2022</span>
@@ -130,8 +165,8 @@ return (
                     </div>
                 </div>*/}
 
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
 }
