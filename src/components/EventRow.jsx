@@ -1,14 +1,13 @@
 import {format, parseISO} from "date-fns";
 
-
 export default function EventRow({event}) {
 
     const dateTime = {
         date: format(parseISO(event.start.dateTime), 'dd-MM-yyyy'),
         startTime: format(parseISO(event.start.dateTime), 'HH:mm'),
-        endTime: format(parseISO(event.start.dateTime), 'HH:mm'),
-
+        endTime: format(parseISO(event.end.dateTime), 'HH:mm'),
     }
+
     return (
         <div className="event-row">
             <div className="event-information">
