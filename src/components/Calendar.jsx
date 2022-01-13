@@ -2,14 +2,16 @@ import {useState, useEffect} from 'react'
 import axios from "axios";
 import isToday from 'date-fns/isToday'
 import parseISO from 'date-fns/parseISO'
-import {addDays, endOfDay, isWithinInterval, startOfToday} from "date-fns";
+import {addDays, endOfDay, format, isWithinInterval, startOfToday} from "date-fns";
+
+import EventGroup from "./EventGroup";
 
 
 export default function Calendar() {
 
     const [calendarEvents, setCalendarEvents] = useState(null)
     const [groupedEvents, setGroupedEvents] = useState(null)
-    const [selectedRange, setSelectedRange] = useState(1)
+    const [selectedRange, setSelectedRange] = useState(7)
 
     const fetchEvents = () => {
         const calendarId = process.env.REACT_APP_API_CALENDAR_ID
@@ -48,19 +50,23 @@ export default function Calendar() {
             groups = [
                 {
                     name: 'Today',
-                    groupTimespan: timeSpan.start,
+                    //it will show the proper group date or timespan later
+                    groupTimeSpan: format(startOfToday(),'dd-MM-yyyy'),
                     events: filteredEvents
                 }
             ]
+
 
         } else {
             groups = [
                 {
                     name: '13.01.2022.',
+                    groupTimeSpan: 'dd-MM-yyyy',
                     events: [{}]
                 },
                 {
                     name: '14.01.2022.',
+                    groupTimeSpan: 'dd-MM-yyyy',
                     events: [{}]
                 }
             ]
@@ -95,53 +101,14 @@ return (
 
             <div className="wrapper-card">
 
-                <div className="group-wrapper">
-                    <div className="group-title">Monday/Today<span className="group-date">17.1.2022</span></div>
-                    <div className="event-group">
 
-                        <div className="event-row">
-                            <div className="event-information">
-                                <div className="event-name">EVENT NAME</div>
-                                <div className="event-time-date">
-                                    <div className="time">9:00 - 10:00</div>
-                                </div>
-                            </div>
-                            <div className="event-controls">
-                                <button className="event-button">Delete</button>
-                            </div>
-                        </div>
+                { groupedEvents ? groupedEvents.map((group, index) => {
+                    return (<EventGroup group={group} key={index}/>)
+                }) : ''}
 
-                        <div className="event-row">
-                            <div className="event-information">
-                                <div className="event-name">Super long event name Super long event name Super
-                                    long event name Super long event name Super long event name Super long event
-                                    name Super long event name Super long event name Super long event name Super
-                                    long event name Super long event name Super long event name
-                                </div>
-                                <div className="event-time-date">
-                                    <div className="time">14:00 - 17:00</div>
-                                </div>
-                            </div>
-                            <div className="event-controls">
-                                <button className="event-button">Delete</button>
-                            </div>
-                        </div>
 
-                        <div className="event-row">
-                            <div className="event-information">
-                                <div className="event-name">Nap time</div>
-                                <div className="event-time-date">
-                                    <div className="time">19:00 - 21:00</div>
-                                </div>
-                            </div>
-                            <div className="event-controls">
-                                <button className="event-button">Delete</button>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
+                {/*
+                //EVENT GROUP
                 <div className="group-wrapper">
                     <div className="group-title">Week 3<span className="group-date">17.1.2022 - 23.1.2022</span>
                     </div>
@@ -160,38 +127,8 @@ return (
                             </div>
                         </div>
 
-                        <div className="event-row">
-                            <div className="event-information">
-                                <div className="event-name">Super long event name Super long event name Super
-                                    long event name Super long event name Super long event name Super long event
-                                    name Super long event name Super long event name Super long event name Super
-                                    long event name Super long event name Super long event name
-                                </div>
-                                <div className="event-time-date">
-                                    <div className="date">17.1.2022</div>
-                                    <div className="time">14:00 - 17:00</div>
-                                </div>
-                            </div>
-                            <div className="event-controls">
-                                <button className="event-button">Delete</button>
-                            </div>
-                        </div>
-
-                        <div className="event-row">
-                            <div className="event-information">
-                                <div className="event-name">Nap time</div>
-                                <div className="event-time-date">
-                                    <div className="date">17.1.2022</div>
-                                    <div className="time">19:00 - 21:00</div>
-                                </div>
-                            </div>
-                            <div className="event-controls">
-                                <button className="event-button">Delete</button>
-                            </div>
-                        </div>
-
                     </div>
-                </div>
+                </div>*/}
 
             </div>
         </div>
