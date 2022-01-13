@@ -1,1 +1,152 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@300;400;500;600&display=swap');
+
+body {
+  background-color: $background;
+  font-family: 'Roboto', sans-serif;
+  color: $darkGrey;
+  line-height: 1.5;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+
+.menu-wrapper {
+  display: flex;
+  justify-content: space-between;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 600;
+  padding: 16px;
+  color: $lightGrey;
+  transition: color 0.3s;
+  font-size: 20px;
+
+  .refresh {
+    &:hover {
+      color: $darkGrey;
+    }
+  }
+
+  .display-menu {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+
+    .display-option {
+
+      &.active {
+        color: $accentOrange
+      }
+
+      &:hover {
+        color: $darkGrey;
+      }
+    }
+  }
+}
+
+.wrapper-card {
+  background-color: $cardBackground;
+  padding: 20px 0;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+}
+
+.group-wrapper {
+  margin: 0 12px;
+}
+
+.group-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 20px;
+
+  .group-date {
+    padding-left: 10px;
+    font-size: 16px;
+    color: $lightGrey
+  }
+}
+
+.event-group {
+  background-color: $background;
+  padding: 16px;
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
+  margin: 8px 0 20px 0;
+}
+
+.event-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  padding: 10px 0;
+
+  .event-information {
+
+    flex-grow: 1;
+    padding-right: 16px;
+    align-items: center;
+
+    .event-name {
+      width: 100%;
+    }
+
+    .event-time-date {
+      font-family: 'Rubik', sans-serif;
+      color: $lightGrey;
+      line-height: 1.2;
+
+      div {
+        width: fit-content;
+        margin: auto
+      }
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: 2px dotted $lightGrey;
+    //padding-bottom: 10px;
+  }
+
+  .event-button {
+    color: $darkGrey;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .container {
+    width: 680px;
+    margin: 32px auto;
+  }
+  .menu-wrapper {
+    padding: 16px 0;
+  }
+  .wrapper-card {
+    border-radius: 6px;
+    padding: 20px;
+  }
+
+  .group-wrapper {
+    margin: 0;
+  }
+
+  .event-name {
+    max-width: 70%
+  }
+}
+
+@media screen and (min-width: 480px) {
+
+  .event-information {
+    display: flex;
+    justify-content: space-between;
+  }
+  .event-name {
+    max-width: 60%
+  }
+
+  .event-group {
+    border-radius: 4px;
+  }
+
+
+}

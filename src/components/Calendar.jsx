@@ -7,9 +7,9 @@ export default function Calendar() {
             <div className="container">
                 <div className="menu-wrapper">
                     <div className="display-menu">
-                        <div className="display-option active">1 Day</div>
+                        <div className="display-option">1 Day</div>
                         <div className="display-option active">7 Days</div>
-                        <div className="display-option active">30 Days</div>
+                        <div className="display-option">30 Days</div>
                     </div>
                     <div className="refresh">Refresh</div>
                 </div>
