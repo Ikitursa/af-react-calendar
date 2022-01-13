@@ -1,16 +1,17 @@
 import Calendar from "../components/Calendar";
 import Login from "../components/Login";
 import NotFound from "../components/NotFound";
+import {Navigate} from "react-router-dom";
 
-const routes = () => [
+const routes = (user) => [
 
     {
         path: '/',
-        element: <Calendar />
+        element: user ? <Calendar /> : <Navigate to="/login" />
     },
     {
         path: '/login',
-        element:  <Login />
+        element: user ? <Navigate to="/" /> : <Login />
     },
     {
         path: '*',
