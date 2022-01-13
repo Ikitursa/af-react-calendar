@@ -20,7 +20,7 @@ body {
   padding: 16px;
   color: $lightGrey;
   transition: color 0.3s;
-  font-size: 20px;
+  font-size: 16px;
 
   .refresh {
     &:hover {
@@ -107,9 +107,17 @@ body {
     //padding-bottom: 10px;
   }
 
-  .event-button {
-    color: $darkGrey;
+  .event-controls {
+    display: flex;
+    align-items: center;
+
+    .event-button {
+      font-family: 'Rubik', sans-serif;
+      padding: 6px 10px;
+      color: $darkGrey;
+    }
   }
+
 }
 
 @media screen and (min-width: 768px) {
@@ -135,6 +143,10 @@ body {
 }
 
 @media screen and (min-width: 480px) {
+
+  .menu-wrapper {
+    font-size: 20px;
+  }
 
   .event-information {
     display: flex;

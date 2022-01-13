@@ -1,4 +1,26 @@
+import {useState, useEffect} from 'react'
+import axios from "axios";
+
 export default function Calendar() {
+
+    const [calendarEvents, setCalendarEvents] = useState(null)
+
+    const fetchEvents = () => {
+        const calendarId = process.env.REACT_APP_API_CALENDAR_ID
+        const apiKey = process.env.REACT_APP_API_KEY
+        const url = `${process.env.REACT_APP_API_BASE_URL}/${calendarId}/events?key=${apiKey}`
+
+        axios.get(url).then(response => {
+            console.log(response)
+            setCalendarEvents(response.data.items)
+        }).catch(error => {
+            console.log(error)
+        })
+    }
+
+    useEffect(() => {
+        fetchEvents()
+    }, [])
 
     return (
         <div className="calendar">
@@ -11,7 +33,7 @@ export default function Calendar() {
                         <div className="display-option active">7 Days</div>
                         <div className="display-option">30 Days</div>
                     </div>
-                    <div className="refresh">Refresh</div>
+                    <div onClick={fetchEvents} className="refresh">Refresh</div>
                 </div>
 
 
