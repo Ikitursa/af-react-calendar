@@ -3,9 +3,11 @@ import axios from "axios";
 import {addDays, endOfDay, format, isWithinInterval, startOfToday, parseISO} from "date-fns";
 import {forIn, groupBy} from "lodash";
 
+
 import CalendarRangeSelector from "./CalendarRangeSelector";
 import EventGroup from "./EventGroup";
 import HeaderBar from "./HeaderBar";
+import EventCreate from "./EventCreate";
 
 
 /**
@@ -34,6 +36,17 @@ export default function Calendar() {
     const [calendarEvents, setCalendarEvents] = useState(null)
     const [groupedEvents, setGroupedEvents] = useState(null)
     const [selectedRange, setSelectedRange] = useState(7)
+
+    const[createDialogVisible, setCreateDialogVisible] = useState(false)
+
+    const handleOpenCreate = () => {
+        setCreateDialogVisible(true)
+    }
+    const handleCloseCreate = () => {
+        setCreateDialogVisible(false)
+    }
+
+
 
     const ranges = [1, 7, 30]
 
@@ -114,7 +127,12 @@ export default function Calendar() {
 
     return (
         <div className="calendar">
-<HeaderBar/>
+            <HeaderBar/>
+
+            {
+                createDialogVisible && <EventCreate close={handleCloseCreate}/>
+            }
+
             <div className="container">
                 <div className="menu-wrapper">
                     <div className="display-menu">
@@ -135,6 +153,10 @@ export default function Calendar() {
 
 
                 <div className="wrapper-card">
+
+                    <div className="controls">
+                        <button className="event-button" onClick={handleOpenCreate}>New event</button>
+                    </div>
 
                     {groupedEvents ? groupedEvents.map((group, index) => {
                         return (<EventGroup group={group} key={index}/>)

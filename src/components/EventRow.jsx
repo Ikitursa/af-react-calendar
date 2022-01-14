@@ -1,4 +1,6 @@
 import {format, parseISO} from "date-fns";
+import {useState} from "react";
+import ConfirmDeleteDialog from "./ConfirmDeleteDialog";
 
 export default function EventRow({event}) {
 
@@ -8,8 +10,17 @@ export default function EventRow({event}) {
         endTime: format(parseISO(event.end.dateTime), 'HH:mm'),
     }
 
+    const[deleteDialogVisible, setDeleteDialogVisible] = useState(false)
+    const handleDelete = () => {
+        setDeleteDialogVisible(true)
+    }
+
     return (
+
         <div className="event-row">
+            {
+                deleteDialogVisible && <ConfirmDeleteDialog event={event} close={() => setDeleteDialogVisible(false)}/>
+            }
             <div className="event-information">
                 <div className="event-name">{event.summary}</div>
                 <div className="event-time-date">
@@ -18,7 +29,7 @@ export default function EventRow({event}) {
                 </div>
             </div>
             <div className="event-controls">
-                <button className="event-button">Delete</button>
+                <button className="event-button" onClick={handleDelete}>Delete</button>
             </div>
         </div>
     )
