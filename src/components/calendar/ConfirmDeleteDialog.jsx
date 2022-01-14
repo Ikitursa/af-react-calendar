@@ -21,6 +21,9 @@ export default function ConfirmDeleteDialog({close, event}) {
         }).then(() => {
             fetchEvents()
             close()
+        }).catch(error=> {
+            console.log(error)
+            alert(error.result.error.message)
         })
     }
 
