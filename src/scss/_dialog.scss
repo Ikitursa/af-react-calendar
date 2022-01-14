@@ -33,6 +33,11 @@
 
 .delete-info{
   text-align: center;
+  .event-title{
+    margin-top: 6px;
+    font-weight: 700;
+  }
+  margin-bottom: 10px;
 }
 
 .backdrop {
@@ -45,7 +50,7 @@
 }
 
 .dialog-controls {
-  padding-top: 12px;
+  padding-top: 16px;
   display: flex;
   gap: 10px;
 

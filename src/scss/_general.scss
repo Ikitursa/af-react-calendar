@@ -42,20 +42,24 @@ button {
   outline: none;
   cursor: pointer;
   font-family: $secondaryFont;
-  color: $darkGrey;
+  color: $accentOrange;
   background-color: transparent;
+  transition: all 0.3s;
 }
 
 
 .button-rounded {
   padding: 6px 10px;
   border-radius: 6px;
-  background-color: $buttonMain;
 }
 
 .button-red {
-  background-color: $buttonRed;
-  color: $cardBackground;
+  color: $accentOrange;
+  border: 1px solid transparent;
+
+  &:hover{
+    border: 1px solid $accentOrange
+  }
 }
 
 .calendar-controls {
@@ -63,15 +67,26 @@ button {
   display: flex;
   justify-content: flex-end;
 
-  button {
-    font-weight: 600;
+  .new-event {
+    font-weight: 600;border: none;
   }
 }
 
 .button-sign-in {
   font-weight: 600;
-  padding: 10px 16px;
   margin-top: 12px;
+}
+
+.button-orange{
+  background: $accentOrange;
+  padding: 10px 16px;
+  color: white;
+  border: none;
+  transition: background 0.3s;
+
+  &:hover{
+    background: $accentOrangeHover;
+  }
 }
 
 
@@ -79,19 +94,31 @@ button {
   display: flex;
   justify-content: space-between;
   padding: 10px;
-  transition: color 0.3s;
 
-  button {
+  .display-option {
     font-weight: 700;
     font-size: 16px;
     color: $lightGrey;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $darkGrey;
+    }
 
     &.active {
       color: $accentOrange
     }
+  }
 
-    &:hover {
-      color: $darkGrey;
+  .refresh{
+    border: 1px solid transparent;
+    transition: border 0.3s;
+    border-radius: 3px;
+    color: $darkGrey;
+
+    &:hover{
+      border: 1px solid $darkGrey;
     }
   }
 
@@ -99,14 +126,13 @@ button {
     display: flex;
     justify-content: center;
     gap: 8px;
-
   }
 }
 
 .wrapper-card {
   background-color: $cardBackground;
   padding: 20px 0;
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+  box-shadow: 2px 2px 2px rgb(0 0 0 / 10%);
 
   &.login {
     margin-top: 30px;
@@ -129,9 +155,13 @@ button {
     }
 
     input {
+      display: block;
+      box-sizing: border-box;
       width: 100%;
-      height: 32px;
-      padding: 6px;
+      padding: 8px;
+      font-size: 14px;
+      font-family: $mainFont;
+      color: $darkGrey;
     }
   }
 }
@@ -153,9 +183,9 @@ button {
 }
 
 .event-group {
-  background-color: $background;
+  background-color: $backgroundAlt;
+  border: 1px solid $lightBorder;
   padding: 16px;
-  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
   margin: 8px 0 20px 0;
   border-radius: 4px;
 }
@@ -181,14 +211,15 @@ button {
       color: $lightGrey;
       line-height: 1.2;
 
-      div {
+      & > div {
         width: fit-content;
+        font-size: 12px;
       }
     }
   }
 
   &:not(:last-child) {
-    border-bottom: 2px dotted $lightGrey;
+    border-bottom: 2px dotted $lightBorder;
     //padding-bottom: 10px;
   }
 
@@ -234,11 +265,6 @@ button {
 
 @media screen and (min-width: 480px) {
 
-  .menu-wrapper {
-    button {
-      font-size: 20px;
-    }
-  }
   .display-menu {
     gap: 16px;
   }

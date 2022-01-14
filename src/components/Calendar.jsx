@@ -155,7 +155,7 @@ export default function Calendar() {
                 <div className="wrapper-card">
 
                     <div className="calendar-controls">
-                        <button className="button-rounded" onClick={handleOpenCreate}>New event</button>
+                        <button className="button-rounded new-event button-orange" onClick={handleOpenCreate}>New event</button>
                     </div>
 
                     {groupedEvents ? groupedEvents.map((group, index) => {

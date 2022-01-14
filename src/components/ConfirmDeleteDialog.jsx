@@ -24,7 +24,7 @@ export default function ConfirmDeleteDialog({close, event}) {
                     <div>
                         <div className="delete-info">
                             <p>Are you sure you want to delete:</p>
-                            <p>{event.summary}</p>
+                            <p className="event-title">{event.summary}</p>
                             <p>{dateTime.date}</p>
                             <p>{dateTime.startTime} - {dateTime.endTime}</p>
                         </div>
