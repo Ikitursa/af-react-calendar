@@ -1,0 +1,72 @@
+.input-wrapper {
+  padding: 8px 0;
+}
+
+.popup-container {
+  position: relative;
+}
+
+.centered-popup {
+  border-radius: 6px;
+  padding: 20px;
+  width: 90%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  input{
+    font-size: 16px;
+    border-radius: 4px;
+    border: 1px solid $lightGrey;
+    padding: 0 10px;
+    &.invalid-input{
+      border-color: $accentOrange;
+    }
+    &:focus {
+      border: 1px solid $darkGrey;
+      background-color: white;
+      outline: none;
+    }
+  }
+}
+
+.delete-info{
+  text-align: center;
+  .event-title{
+    margin-top: 6px;
+    font-weight: 700;
+  }
+  margin-bottom: 10px;
+}
+
+.backdrop {
+  height: 100%;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4);
+  position: fixed;
+  left: 0;
+  top: 0;
+}
+
+.dialog-controls {
+  padding-top: 16px;
+  display: flex;
+  gap: 10px;
+
+  button {
+    font-weight: 600;
+    flex-grow: 1;
+  }
+}
+
+
+@media screen and (min-width: 768px) {
+  .centered-popup {width: 600px;}
+
+}
+
+@media screen and (min-width: 480px) {
+  .centered-popup {width: 400px;}
+
+}

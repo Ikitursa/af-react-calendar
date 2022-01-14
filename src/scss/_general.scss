@@ -1,0 +1,304 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Rubik:wght@300;400;500;600&display=swap');
+
+body {
+  background-color: $background;
+  font-family: $mainFont;
+  color: $darkGrey;
+  line-height: 1.5;
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+.header-bar {
+  background-color: $cardBackground;
+  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+
+  .container {
+    justify-content: space-between;
+    display: flex;
+    margin: 0 auto;
+    padding: 16px 10px;
+  }
+
+  .app-name {
+    font-family: $secondaryFont;
+    font-size: 20px;
+    font-weight: 600;
+    color: $accentOrange;
+  }
+
+  .user-controls {
+    font-size: 12px;
+  }
+}
+
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: $secondaryFont;
+  color: $accentOrange;
+  background-color: transparent;
+  transition: all 0.3s;
+
+  &:disabled {
+    opacity: 0.5
+  }
+}
+
+
+.button-rounded {
+  padding: 6px 10px;
+  border-radius: 6px;
+}
+
+.button-secondary {
+  color: $accentOrange;
+  border: 1px solid transparent;
+
+  &:hover {
+    border: 1px solid $accentOrange
+  }
+}
+
+.calendar-controls {
+  padding: 0 10px 4px 10px;
+  display: flex;
+  justify-content: flex-end;
+
+  .new-event {
+    font-weight: 600;
+    border: none;
+  }
+}
+
+.button-sign-in {
+  font-weight: 600;
+  margin-top: 12px;
+}
+
+.button-orange {
+  background: $accentOrange;
+  padding: 10px 16px;
+  color: white;
+  border: none;
+  transition: background 0.3s;
+
+  &:hover {
+    background: $accentOrangeHover;
+  }
+}
+
+
+.menu-wrapper {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+
+  .display-option {
+    font-weight: 700;
+    font-size: 16px;
+    color: $lightGrey;
+    cursor: pointer;
+    transition: color 0.3s;
+
+    &:hover {
+      color: $darkGrey;
+    }
+
+    &.active {
+      color: $accentOrange
+    }
+  }
+
+  .refresh {
+    border: 1px solid transparent;
+    transition: border 0.3s;
+    border-radius: 3px;
+    color: $darkGrey;
+
+    &:hover {
+      border: 1px solid $darkGrey;
+    }
+  }
+
+  .display-menu {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+  }
+}
+
+.warning {
+  color: $buttonRed;
+  font-weight: 500;
+}
+
+.wrapper-card {
+  background-color: $cardBackground;
+  padding: 20px 0;
+  box-shadow: 2px 2px 2px rgb(0 0 0 / 10%);
+
+  &.login {
+    margin: 30px auto 0 auto;
+    padding: 20px;
+    text-align: center;
+    max-width: 300px;
+
+    h1 {
+      font-weight: 500;
+      font-size: 26px;
+      color: $accentOrange;
+      margin-bottom: 10px;
+    }
+  }
+
+  &.popup {
+    max-width: 400px;
+    margin: auto;
+
+    .controls {
+      margin-top: 16px;
+      display: flex;
+      justify-content: space-around;
+    }
+
+    label {
+      font-family: $secondaryFont;
+    }
+
+    input {
+      display: block;
+      box-sizing: border-box;
+      width: 100%;
+      padding: 8px;
+      font-size: 14px;
+      font-family: $mainFont;
+      color: $darkGrey;
+    }
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.group-wrapper {
+  margin: 0 12px;
+}
+
+.group-title {
+  font-family: $secondaryFont;
+  font-size: 20px;
+
+  .group-date {
+    padding-left: 10px;
+    font-size: 16px;
+    color: $lightGrey
+  }
+}
+
+.event-group {
+  background-color: $backgroundAlt;
+  border: 1px solid $lightBorder;
+  padding: 16px;
+  margin: 8px 0 20px 0;
+  border-radius: 4px;
+}
+
+.event-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  padding: 10px 0;
+
+  .event-information {
+
+    flex-grow: 1;
+    padding-right: 16px;
+    align-items: center;
+
+    .event-name {
+      width: 100%;
+    }
+
+    .event-time-date {
+      font-family: $secondaryFont;
+      color: $lightGrey;
+      line-height: 1.2;
+
+      & > div {
+        width: fit-content;
+        font-size: 12px;
+      }
+    }
+  }
+
+  &:not(:last-child) {
+    border-bottom: 2px dotted $lightBorder;
+    //padding-bottom: 10px;
+  }
+
+  .event-controls {
+    display: flex;
+    align-items: center;
+  }
+}
+
+
+@media screen and (min-width: 768px) {
+  .container {
+    width: 680px;
+    margin: 32px auto;
+  }
+
+  .header-bar {
+    .container {
+      padding: 16px 0;
+    }
+  }
+
+  .menu-wrapper {
+    padding: 10px 0;
+  }
+  .wrapper-card {
+    border-radius: 6px;
+    padding: 20px;
+
+  }
+  .calendar-controls {
+    padding: 0 0 4px 0;
+  }
+
+  .group-wrapper {
+    margin: 0;
+  }
+
+  .event-name {
+    max-width: 70%
+  }
+}
+
+@media screen and (min-width: 480px) {
+
+  .display-menu {
+    gap: 16px;
+  }
+
+  .event-information {
+    display: flex;
+    justify-content: space-between;
+  }
+  .event-name {
+    max-width: 60%
+  }
+
+  .event-time-date {
+    div {
+      margin: auto
+    }
+  }
+
+}
