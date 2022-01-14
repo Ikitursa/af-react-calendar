@@ -1,23 +1,30 @@
-import {format, parseISO} from "date-fns";
+import {format, parseISO} from "date-fns"
+import {RefreshEventsContext} from "../contexts/RefreshEvents"
+import {useContext} from "react"
 
 export default function ConfirmDeleteDialog({close, event}) {
 
+    const {fetchEvents} = useContext(RefreshEventsContext)
+
+    // prepare dates for display
     const dateTime = {
-        date: format(parseISO(event.start.dateTime), 'dd-MM-yyyy'),
+        date: format(parseISO(event.start.dateTime), 'dd.MM.yyyy'),
         startTime: format(parseISO(event.start.dateTime), 'HH:mm'),
         endTime: format(parseISO(event.end.dateTime), 'HH:mm'),
     }
 
-
+    // sends an API call to delete the event
     const deleteEvent = () => {
-        // insert api call
-        // insert refresh
-        console.log('deleteEvent called')
-        close()
+        window.gapi.client.calendar.events.delete({
+            calendarId: process.env.REACT_APP_API_CALENDAR_ID,
+            eventId: event.id
+        }).then(() => {
+            fetchEvents()
+            close()
+        })
     }
 
     return (
-
         <div className="popup-container">
             <div className="backdrop">
                 <div className="wrapper-card popup centered-popup">
@@ -30,16 +37,13 @@ export default function ConfirmDeleteDialog({close, event}) {
                         </div>
 
                         <div className="dialog-controls">
-                            <button className="button-rounded" onClick={deleteEvent}>Confirm</button>
-                            <button className="button-rounded button-red" onClick={close}>Cancel</button>
+                            <button className="button-rounded button-secondary" onClick={close}>Cancel</button>
+                            <button className="button-rounded button-orange" onClick={deleteEvent}>Confirm</button>
                         </div>
-
-
                     </div>
                 </div>
             </div>
 
         </div>
-
     )
 }

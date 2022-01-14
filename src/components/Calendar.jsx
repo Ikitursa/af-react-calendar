@@ -1,69 +1,50 @@
 import {useState, useEffect} from 'react'
-import axios from "axios";
-import {addDays, endOfDay, format, isWithinInterval, startOfToday, parseISO} from "date-fns";
-import {forIn, groupBy} from "lodash";
+import {addDays, endOfDay, format, isWithinInterval, startOfToday, parseISO} from "date-fns"
 
+import CalendarRangeSelector from "./CalendarRangeSelector"
+import EventGroup from "./EventGroup"
+import HeaderBar from "./HeaderBar"
+import EventCreate from "./EventCreate"
+import Spinner from "./Spinner"
 
-import CalendarRangeSelector from "./CalendarRangeSelector";
-import EventGroup from "./EventGroup";
-import HeaderBar from "./HeaderBar";
-import EventCreate from "./EventCreate";
-
-
-/**
- * @param {Object} options
- * @param {Array} options.eventSet - List of prefiltered events
- * @param {String} options.groupByTerm - The term by which the events will be grouped
- * @param {String} [options.namePrefix]
- */
-function groupPreparer(options) {
-    let groups = []
-    const groupedEvents = groupBy(options.eventSet, (event) => {
-        return format(parseISO(event.start.dateTime), options.groupByTerm)
-    })
-    forIn(groupedEvents, (events, name) => {
-        groups.push({
-            name: options.namePrefix ? `${options.namePrefix} ${name}` : name,
-            events
-        })
-    })
-    return groups
-}
-
+import {RefreshEventsContext} from "../contexts/RefreshEvents"
+import groupPreparer from "../utils/groupPreparer"
 
 export default function Calendar() {
 
+    // stores the API response of events
     const [calendarEvents, setCalendarEvents] = useState(null)
+    
+    // stores prepared groups of events based on the selected range
     const [groupedEvents, setGroupedEvents] = useState(null)
+    
+    // active range selection
+    const ranges = [1, 7, 30]
     const [selectedRange, setSelectedRange] = useState(7)
 
-    const[createDialogVisible, setCreateDialogVisible] = useState(false)
+    // toggles the "new event" popup form
+    const [createDialogVisible, setCreateDialogVisible] = useState(false)
+    
+    const handleOpenCreate = () => setCreateDialogVisible(true)
+    const handleCloseCreate = () => setCreateDialogVisible(false)
 
-    const handleOpenCreate = () => {
-        setCreateDialogVisible(true)
-    }
-    const handleCloseCreate = () => {
-        setCreateDialogVisible(false)
-    }
-
-
-
-    const ranges = [1, 7, 30]
-
+    // fetches events from the calendar
     const fetchEvents = () => {
+        setCalendarEvents(null)
         const calendarId = process.env.REACT_APP_API_CALENDAR_ID
-        const apiKey = process.env.REACT_APP_API_KEY
-        const url = `${process.env.REACT_APP_API_BASE_URL}/${calendarId}/events?key=${apiKey}`
 
-        axios.get(url).then(response => {
-
-            setCalendarEvents(response.data.items)
-
-        }).catch(error => {
-            console.log(error)
-        })
+        window.gapi.client.calendar.events.list({
+            calendarId: calendarId,
+            showDeleted: false,
+            singleEvents: true,
+            maxResults: 100,
+            orderBy: 'startTime'
+        }).then(response => {
+            setCalendarEvents(response.result.items)
+        }).catch(error => console.log('gapi calendar error', error))
     }
 
+    // groups the events depending on our active range selection
     const groupEvents = () => {
 
         if (calendarEvents) {
@@ -76,13 +57,12 @@ export default function Calendar() {
                 end: endOfDay(addDays(startDate, selectedRange - 1))
             }
 
+            // make our list of events smaller so we don't run heavy computation on a large list
             const filteredEvents = calendarEvents.filter(event => {
                 return isWithinInterval((parseISO(event.start.dateTime)), timeSpan)
             })
 
-
             switch (selectedRange) {
-
                 case 1:
                     groups = [
                         {
@@ -90,37 +70,35 @@ export default function Calendar() {
                             events: filteredEvents
                         }
                     ]
-
-                    break;
+                    break
                 case 7:
-
                     groups = groupPreparer({
                         eventSet: filteredEvents,
                         groupByTerm: 'dd.MM.yyyy'
                     })
-
-                    break;
-
+                    break
                 case 30:
-
                     groups = groupPreparer({
                         eventSet: filteredEvents,
                         groupByTerm: 'ww - yyyy',
                         namePrefix: 'Week'
                     })
-
-                    break;
+                    break
+                default:
+                    break
             }
-
-
             setGroupedEvents(groups)
+        } else {
+            setGroupedEvents(null)
         }
     }
 
+    // fetch events on first component load
     useEffect(() => {
         fetchEvents()
     }, [])
 
+    // recalculate/prepare our events on every range selection change or API call
     useEffect(() => {
         groupEvents()
     }, [calendarEvents, selectedRange])
@@ -128,42 +106,37 @@ export default function Calendar() {
     return (
         <div className="calendar">
             <HeaderBar/>
-
-            {
-                createDialogVisible && <EventCreate close={handleCloseCreate}/>
-            }
-
-            <div className="container">
-                <div className="menu-wrapper">
-                    <div className="display-menu">
-                        {
-                            ranges.map(range => {
-                                return (
-                                    <CalendarRangeSelector
-                                        key={range}
-                                        range={range} selectedRange={selectedRange}
-                                        updateRange={() => setSelectedRange(range)}
-                                    />
-                                )
-                            })
-                        }
+            <RefreshEventsContext.Provider value={{fetchEvents}}>
+                {createDialogVisible && <EventCreate close={handleCloseCreate} />}
+                <div className="container">
+                    <div className="menu-wrapper">
+                        <div className="display-menu">
+                            {
+                                ranges.map(range => {
+                                    return (
+                                        <CalendarRangeSelector
+                                            key={range}
+                                            range={range} selectedRange={selectedRange}
+                                            updateRange={() => setSelectedRange(range)}
+                                        />
+                                    )
+                                })
+                            }
+                        </div>
+                        <button onClick={fetchEvents} className="refresh">Refresh</button>
                     </div>
-                    <button onClick={fetchEvents} className="refresh">Refresh</button>
-                </div>
-
-
-                <div className="wrapper-card">
-
-                    <div className="calendar-controls">
-                        <button className="button-rounded new-event button-orange" onClick={handleOpenCreate}>New event</button>
+                    <div className="wrapper-card">
+                        <div className="calendar-controls">
+                            <button className="button-rounded new-event button-orange" onClick={handleOpenCreate}>New
+                                event
+                            </button>
+                        </div>
+                        {groupedEvents ? groupedEvents.map((group, index) => {
+                            return (<EventGroup group={group} key={index}/>)
+                        }) : <Spinner size={'small'}/>}
                     </div>
-
-                    {groupedEvents ? groupedEvents.map((group, index) => {
-                        return (<EventGroup group={group} key={index}/>)
-                    }) : ''}
-
                 </div>
-            </div>
+            </RefreshEventsContext.Provider>
         </div>
-    );
+    )
 }

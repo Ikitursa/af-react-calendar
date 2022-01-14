@@ -1,44 +1,30 @@
-import {useContext, useState} from "react";
-import {UserContext} from "../contexts/UserContext";
-import {useGoogleLogin} from 'react-google-login';
-
+import {useContext} from "react"
+import {UserContext} from "../contexts/UserContext"
+import prepareUserFromGoogleLogin from '../utils/googleLogin'
+import calendarLogo from '../assets/calendar.png'
 
 export default function Login() {
 
     const {setUser} = useContext(UserContext)
 
-    const clientId = process.env.REACT_APP_API_CLIENT_ID
-
-    const [errorMessage, setErrorMessage] = useState('')
-
-    const handleLogin = (user) => {
-        setUser(user)
+    // sign the user in
+    const signIn = () => {
+        const scope = process.env.REACT_APP_GAPI_SCOPES
+        window.gapi.auth2.getAuthInstance().signIn({scope}).then(() => {
+            setUser(prepareUserFromGoogleLogin())
+        }).catch(error => {
+            console.log(error)
+            alert(error.error)
+        })
     }
-
-    const handleFailure = (failureResponse) => {
-        setErrorMessage(failureResponse.error)
-    }
-
-    const { signIn } = useGoogleLogin({
-        onSuccess:handleLogin,
-        clientId,
-        cookiePolicy:'single_host_origin',
-        onFailure:handleFailure
-
-    })
 
     return (
         <div className="container">
             <div className="wrapper-card login">
-
-                <p>To use this calendar you first need to log in with google</p>
-
-
-                <button className="button-rounded button-sign-in button-orange" onClick={signIn}>Sign in</button>
-                {
-                    errorMessage && <div>{errorMessage}</div>
-                }
+                <h1>Calendar</h1>
+                <img src={calendarLogo} alt="Calendar"/>
+                <button className="button-rounded button-sign-in button-orange" onClick={signIn}>Sign in with Google</button>
             </div>
         </div>
-    );
+    )
 }

@@ -5,7 +5,6 @@ export default function EventGroup({group}) {
         <div className="group-wrapper">
             <div className="group-title">{group.name}</div>
             <div className="event-group">
-
                 {
                     group.events.map((event, index) => {
                         return (

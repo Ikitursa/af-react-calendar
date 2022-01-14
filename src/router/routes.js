@@ -1,10 +1,9 @@
-import Calendar from "../components/Calendar";
-import Login from "../components/Login";
-import NotFound from "../components/NotFound";
-import {Navigate} from "react-router-dom";
+import Calendar from "../components/Calendar"
+import Login from "../components/Login"
+import NotFound from "../components/NotFound"
+import {Navigate} from "react-router-dom"
 
 const routes = (user) => [
-
     {
         path: '/',
         element: user ? <Calendar /> : <Navigate to="/login" />
@@ -17,6 +16,6 @@ const routes = (user) => [
         path: '*',
         element: <NotFound />,
     },
-];
+]
 
-export default routes;
+export default routes

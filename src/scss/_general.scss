@@ -22,19 +22,16 @@ body {
     padding: 16px 10px;
   }
 
-  p {
+  .app-name {
     font-family: $secondaryFont;
     font-size: 20px;
     font-weight: 600;
     color: $accentOrange;
   }
 
-  .error-message {
-    font-family: $secondaryFont;
-    font-size: 14px;
-    color: darkred;
+  .user-controls {
+    font-size: 12px;
   }
-
 }
 
 button {
@@ -45,6 +42,10 @@ button {
   color: $accentOrange;
   background-color: transparent;
   transition: all 0.3s;
+
+  &:disabled {
+    opacity: 0.5
+  }
 }
 
 
@@ -53,11 +54,11 @@ button {
   border-radius: 6px;
 }
 
-.button-red {
+.button-secondary {
   color: $accentOrange;
   border: 1px solid transparent;
 
-  &:hover{
+  &:hover {
     border: 1px solid $accentOrange
   }
 }
@@ -68,7 +69,8 @@ button {
   justify-content: flex-end;
 
   .new-event {
-    font-weight: 600;border: none;
+    font-weight: 600;
+    border: none;
   }
 }
 
@@ -77,14 +79,14 @@ button {
   margin-top: 12px;
 }
 
-.button-orange{
+.button-orange {
   background: $accentOrange;
   padding: 10px 16px;
   color: white;
   border: none;
   transition: background 0.3s;
 
-  &:hover{
+  &:hover {
     background: $accentOrangeHover;
   }
 }
@@ -111,13 +113,13 @@ button {
     }
   }
 
-  .refresh{
+  .refresh {
     border: 1px solid transparent;
     transition: border 0.3s;
     border-radius: 3px;
     color: $darkGrey;
 
-    &:hover{
+    &:hover {
       border: 1px solid $darkGrey;
     }
   }
@@ -129,15 +131,28 @@ button {
   }
 }
 
+.warning {
+  color: $buttonRed;
+  font-weight: 500;
+}
+
 .wrapper-card {
   background-color: $cardBackground;
   padding: 20px 0;
   box-shadow: 2px 2px 2px rgb(0 0 0 / 10%);
 
   &.login {
-    margin-top: 30px;
-    padding:20px;
+    margin: 30px auto 0 auto;
+    padding: 20px;
     text-align: center;
+    max-width: 300px;
+
+    h1 {
+      font-weight: 500;
+      font-size: 26px;
+      color: $accentOrange;
+      margin-bottom: 10px;
+    }
   }
 
   &.popup {
@@ -166,6 +181,9 @@ button {
   }
 }
 
+.text-center {
+  text-align: center;
+}
 
 .group-wrapper {
   margin: 0 12px;
