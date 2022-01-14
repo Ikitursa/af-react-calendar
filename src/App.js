@@ -3,7 +3,7 @@ import {useRoutes} from 'react-router-dom'
 import {useState, useMemo, useEffect} from 'react'
 import {UserContext} from "./contexts/UserContext"
 import prepareUserFromGoogleLogin from './utils/googleLogin'
-import Spinner from "./components/Spinner"
+import Spinner from "./components/layout/Spinner"
 
 function App() {
 
