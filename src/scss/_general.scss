@@ -183,7 +183,6 @@ button {
 
       div {
         width: fit-content;
-        margin: auto
       }
     }
   }
@@ -250,6 +249,12 @@ button {
   }
   .event-name {
     max-width: 60%
+  }
+
+  .event-time-date {
+    div {
+      margin: auto
+    }
   }
 
 }
