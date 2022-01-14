@@ -7,7 +7,7 @@ import HeaderBar from "./HeaderBar"
 import EventCreate from "./EventCreate"
 import Spinner from "./Spinner"
 
-import {RefreshEventsContext} from "../contexts/RefreshEvents"
+import {EventsContext} from "../contexts/RefreshEvents"
 import groupPreparer from "../utils/groupPreparer"
 
 export default function Calendar() {
@@ -106,7 +106,7 @@ export default function Calendar() {
     return (
         <div className="calendar">
             <HeaderBar/>
-            <RefreshEventsContext.Provider value={{fetchEvents}}>
+            <EventsContext.Provider value={{fetchEvents, selectedRange}}>
                 {createDialogVisible && <EventCreate close={handleCloseCreate} />}
                 <div className="container">
                     <div className="menu-wrapper">
@@ -136,7 +136,7 @@ export default function Calendar() {
                         }) : <Spinner size={'small'}/>}
                     </div>
                 </div>
-            </RefreshEventsContext.Provider>
+            </EventsContext.Provider>
         </div>
     )
 }

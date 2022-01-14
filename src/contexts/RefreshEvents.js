@@ -1,2 +1,2 @@
 import { createContext } from "react"
-export const RefreshEventsContext = createContext(null)
+export const EventsContext = createContext(null)

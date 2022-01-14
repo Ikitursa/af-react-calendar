@@ -1,10 +1,10 @@
 import {format, parseISO} from "date-fns"
-import {RefreshEventsContext} from "../contexts/RefreshEvents"
+import {EventsContext} from "../contexts/RefreshEvents"
 import {useContext} from "react"
 
 export default function ConfirmDeleteDialog({close, event}) {
 
-    const {fetchEvents} = useContext(RefreshEventsContext)
+    const {fetchEvents} = useContext(EventsContext)
 
     // prepare dates for display
     const dateTime = {
