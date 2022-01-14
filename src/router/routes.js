@@ -1,6 +1,6 @@
-import Calendar from "../components/Calendar"
-import Login from "../components/Login"
-import NotFound from "../components/NotFound"
+import Calendar from "../views/Calendar"
+import Login from "../views/Login"
+import NotFound from "../views/NotFound"
 import {Navigate} from "react-router-dom"
 
 const routes = (user) => [

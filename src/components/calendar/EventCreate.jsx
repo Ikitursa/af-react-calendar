@@ -1,7 +1,7 @@
 import {useContext, useEffect, useState} from "react"
 import {formatRFC3339, parseISO} from 'date-fns'
 
-import {EventsContext} from "../contexts/RefreshEvents"
+import {EventsContext} from "../../contexts/RefreshEvents"
 
 export default function EventCreate({close, refreshEvents}) {
 

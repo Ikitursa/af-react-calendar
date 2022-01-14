@@ -1,5 +1,5 @@
 import {format, parseISO} from "date-fns"
-import {EventsContext} from "../contexts/RefreshEvents"
+import {EventsContext} from "../../contexts/RefreshEvents"
 import {useContext} from "react"
 
 export default function ConfirmDeleteDialog({close, event}) {

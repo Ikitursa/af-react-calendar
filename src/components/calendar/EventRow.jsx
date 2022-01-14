@@ -1,7 +1,7 @@
 import {format, parseISO} from "date-fns"
 import {useContext, useState} from "react"
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog"
-import {EventsContext} from "../contexts/RefreshEvents";
+import {EventsContext} from "../../contexts/RefreshEvents";
 
 export default function EventRow({event}) {
 

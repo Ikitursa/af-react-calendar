@@ -1,11 +1,11 @@
 import {useState, useEffect} from 'react'
-import {addDays, endOfDay, format, isWithinInterval, startOfToday, parseISO} from "date-fns"
+import {addDays, endOfDay, isWithinInterval, startOfToday, parseISO} from "date-fns"
 
-import CalendarRangeSelector from "./CalendarRangeSelector"
-import EventGroup from "./EventGroup"
-import HeaderBar from "./HeaderBar"
-import EventCreate from "./EventCreate"
-import Spinner from "./Spinner"
+import CalendarRangeSelector from "../components/calendar/CalendarRangeSelector"
+import EventGroup from "../components/calendar/EventGroup"
+import HeaderBar from "../components/layout/HeaderBar"
+import EventCreate from "../components/calendar/EventCreate"
+import Spinner from "../components/layout/Spinner"
 
 import {EventsContext} from "../contexts/RefreshEvents"
 import groupPreparer from "../utils/groupPreparer"
