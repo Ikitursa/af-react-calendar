@@ -9,12 +9,6 @@ export default function Login() {
 
     const clientId = process.env.REACT_APP_API_CLIENT_ID
 
-
-
-    const responseGoogle = (response) => {
-        console.log('GUUUUGL', response);
-    }
-
     const [errorMessage, setErrorMessage] = useState('')
 
     const handleLogin = (user) => {
@@ -41,14 +35,6 @@ export default function Login() {
 
 
                 <button className="sign-in" onClick={signIn}>Sign in</button>
-                {/*<GoogleLogin
-                    clientId={clientId}
-                    buttonText="Login"
-                    onSuccess={handleLogin}
-                    onFailure={handleFailure}
-
-                    cookiePolicy={'single_host_origin'}
-                />*/}
                 {
                     errorMessage && <div>{errorMessage}</div>
                 }
