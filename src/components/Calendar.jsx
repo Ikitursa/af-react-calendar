@@ -148,14 +148,14 @@ export default function Calendar() {
                             })
                         }
                     </div>
-                    <div onClick={fetchEvents} className="refresh">Refresh</div>
+                    <button onClick={fetchEvents} className="refresh">Refresh</button>
                 </div>
 
 
                 <div className="wrapper-card">
 
-                    <div className="controls">
-                        <button className="event-button" onClick={handleOpenCreate}>New event</button>
+                    <div className="calendar-controls">
+                        <button className="button-rounded" onClick={handleOpenCreate}>New event</button>
                     </div>
 
                     {groupedEvents ? groupedEvents.map((group, index) => {

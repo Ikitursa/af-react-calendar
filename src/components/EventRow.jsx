@@ -29,7 +29,7 @@ export default function EventRow({event}) {
                 </div>
             </div>
             <div className="event-controls">
-                <button className="event-button" onClick={handleDelete}>Delete</button>
+                <button className="button-rounded button-red" onClick={handleDelete}>Delete</button>
             </div>
         </div>
     )

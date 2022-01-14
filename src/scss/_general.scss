@@ -2,7 +2,7 @@
 
 body {
   background-color: $background;
-  font-family: 'Roboto', sans-serif;
+  font-family: $mainFont;
   color: $darkGrey;
   line-height: 1.5;
 
@@ -10,41 +10,86 @@ body {
     box-sizing: border-box;
   }
 }
-.header-bar{
+
+.header-bar {
   background-color: $cardBackground;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
-  .container{
+
+  .container {
     justify-content: space-between;
-    display:flex;
-    margin:0 auto;
-    padding:16px 0;
-  }
-  p {
-    font-family: 'Rubik', sans-serif;
-    font-size: 20px;
-    font-weight: 600;
-    color:$accentOrange;
+    display: flex;
+    margin: 0 auto;
+    padding: 16px 10px;
   }
 
-  .error-message{
-    font-family: 'Rubik', sans-serif;
+  p {
+    font-family: $secondaryFont;
+    font-size: 20px;
+    font-weight: 600;
+    color: $accentOrange;
+  }
+
+  .error-message {
+    font-family: $secondaryFont;
     font-size: 14px;
-    color:darkred;
+    color: darkred;
   }
 
 }
 
+button {
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-family: $secondaryFont;
+  color: $darkGrey;
+  background-color: transparent;
+}
+
+
+.button-rounded {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background-color: $buttonMain;
+}
+
+.button-red {
+  background-color: $buttonRed;
+  color: $cardBackground;
+}
+
+.calendar-controls {
+  padding: 0 10px 4px 10px;
+  display: flex;
+  justify-content: flex-end;
+
+  button {
+    font-weight: 600;
+  }
+}
+
+.button-sign-in {
+  font-weight: 600;
+  padding: 10px 16px;
+  margin-top: 12px;
+}
+
+
 .menu-wrapper {
   display: flex;
   justify-content: space-between;
-  font-family: 'Rubik', sans-serif;
-  font-weight: 600;
-  padding: 16px;
-  color: $lightGrey;
+  padding: 10px;
   transition: color 0.3s;
-  font-size: 16px;
 
-  .refresh {
+  button {
+    font-weight: 700;
+    font-size: 16px;
+    color: $lightGrey;
+
+    &.active {
+      color: $accentOrange
+    }
+
     &:hover {
       color: $darkGrey;
     }
@@ -53,18 +98,8 @@ body {
   .display-menu {
     display: flex;
     justify-content: center;
-    gap: 16px;
+    gap: 8px;
 
-    .display-option {
-
-      &.active {
-        color: $accentOrange
-      }
-
-      &:hover {
-        color: $darkGrey;
-      }
-    }
   }
 }
 
@@ -73,20 +108,27 @@ body {
   padding: 20px 0;
   box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
 
-  &.popup{
+  &.login {
+    margin-top: 30px;
+    padding:20px;
+    text-align: center;
+  }
+
+  &.popup {
     max-width: 400px;
     margin: auto;
 
-    .controls{
+    .controls {
       margin-top: 16px;
       display: flex;
       justify-content: space-around;
     }
 
-    label{
-      font-family: 'Rubik', sans-serif;
+    label {
+      font-family: $secondaryFont;
     }
-    input{
+
+    input {
       width: 100%;
       height: 32px;
       padding: 6px;
@@ -95,13 +137,12 @@ body {
 }
 
 
-
 .group-wrapper {
   margin: 0 12px;
 }
 
 .group-title {
-  font-family: 'Rubik', sans-serif;
+  font-family: $secondaryFont;
   font-size: 20px;
 
   .group-date {
@@ -116,6 +157,7 @@ body {
   padding: 16px;
   box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.1);
   margin: 8px 0 20px 0;
+  border-radius: 4px;
 }
 
 .event-row {
@@ -135,7 +177,7 @@ body {
     }
 
     .event-time-date {
-      font-family: 'Rubik', sans-serif;
+      font-family: $secondaryFont;
       color: $lightGrey;
       line-height: 1.2;
 
@@ -154,35 +196,7 @@ body {
   .event-controls {
     display: flex;
     align-items: center;
-
   }
-}
-
-.event-button {
-  font-family: 'Rubik', sans-serif;
-  padding: 6px 10px;
-  color: $darkGrey;
-}
-
-.input-wrapper{
-  padding:8px 0;
-}
-.popup-container{
-  position:relative;
-}
-.centered-popup {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-.backdrop {
-  height: 100%;
-  width: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  position: fixed;
-  left: 0;
-  top: 0;
 }
 
 
@@ -191,17 +205,23 @@ body {
     width: 680px;
     margin: 32px auto;
   }
+
+  .header-bar {
+    .container {
+      padding: 16px 0;
+    }
+  }
+
   .menu-wrapper {
-    padding: 16px 0;
+    padding: 10px 0;
   }
   .wrapper-card {
     border-radius: 6px;
     padding: 20px;
 
-    &.login{
-      text-align: center;
-    }
-
+  }
+  .calendar-controls {
+    padding: 0 0 4px 0;
   }
 
   .group-wrapper {
@@ -216,7 +236,12 @@ body {
 @media screen and (min-width: 480px) {
 
   .menu-wrapper {
-    font-size: 20px;
+    button {
+      font-size: 20px;
+    }
+  }
+  .display-menu {
+    gap: 16px;
   }
 
   .event-information {
@@ -226,10 +251,5 @@ body {
   .event-name {
     max-width: 60%
   }
-
-  .event-group {
-    border-radius: 4px;
-  }
-
 
 }

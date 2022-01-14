@@ -29,9 +29,9 @@ export default function ConfirmDeleteDialog({close, event}) {
                             <p>{dateTime.startTime} - {dateTime.endTime}</p>
                         </div>
 
-                        <div className="controls">
-                            <button className="event-button" onClick={deleteEvent}>Confirm</button>
-                            <button className="event-button" onClick={close}>Cancel</button>
+                        <div className="dialog-controls">
+                            <button className="button-rounded" onClick={deleteEvent}>Confirm</button>
+                            <button className="button-rounded button-red" onClick={close}>Cancel</button>
                         </div>
 
 

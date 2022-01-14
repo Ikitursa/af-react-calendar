@@ -34,7 +34,7 @@ export default function Login() {
                 <p>To use this calendar you first need to log in with google</p>
 
 
-                <button className="sign-in" onClick={signIn}>Sign in</button>
+                <button className="button-rounded button-sign-in" onClick={signIn}>Sign in</button>
                 {
                     errorMessage && <div>{errorMessage}</div>
                 }

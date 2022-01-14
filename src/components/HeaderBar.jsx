@@ -34,7 +34,7 @@ export default function HeaderBar() {
                 {
                     errorMessage && <div className="error-message">{errorMessage}</div>
                 }
-                <button className="sign-out" onClick={signOut}>Sign out</button>
+                <button className="button-rounded button-red" onClick={signOut}>Sign out</button>
 
 
             </div>

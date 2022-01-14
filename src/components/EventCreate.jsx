@@ -52,9 +52,9 @@ export default function EventCreate({close}) {
 
                     </div>
 
-                    <div className="controls">
-                        <button className="event-button" onClick={postEvent}>Submit</button>
-                        <button className="event-button" onClick={close}>Cancel</button>
+                    <div className="dialog-controls">
+                        <button className="button-rounded" onClick={postEvent}>Submit</button>
+                        <button className="button-rounded button-red" onClick={close}>Cancel</button>
                     </div>
 
                 </div>
