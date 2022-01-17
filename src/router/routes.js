@@ -6,15 +6,15 @@ import {Navigate} from "react-router-dom"
 const routes = (user) => [
     {
         path: '/',
-        element: user ? <Calendar /> : <Navigate to="/login" />
+        element: user ? <Calendar/> : <Navigate to="/login"/>
     },
     {
         path: '/login',
-        element: user ? <Navigate to="/" /> : <Login />
+        element: user ? <Navigate to="/"/> : <Login/>
     },
     {
         path: '*',
-        element: <NotFound />,
+        element: <NotFound/>,
     },
 ]
 

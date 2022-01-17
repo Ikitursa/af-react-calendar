@@ -1,11 +1,11 @@
 import {useContext, useEffect, useState} from "react"
 import {formatRFC3339, parseISO} from 'date-fns'
 
-import {EventsContext} from "../../contexts/RefreshEvents"
+import {CalendarContext} from "../../contexts/CalendarContext"
 
 export default function EventCreate({close, refreshEvents}) {
 
-    const {fetchEvents} = useContext(EventsContext)
+    const {fetchEvents, activeUserCalendar} = useContext(CalendarContext)
 
     // enables form submit if all mandatory fields are filled
     const [formDisabled, setFormDisabled] = useState(true)
@@ -44,12 +44,11 @@ export default function EventCreate({close, refreshEvents}) {
 
     // submit event to the calendar
     const submitEvent = () => {
-        if(formDisabled){
+        if (formDisabled) {
             alert('Please fill in all the form fields')
-        }
-        else{
+        } else {
             window.gapi.client.calendar.events.insert({
-                calendarId: process.env.REACT_APP_API_CALENDAR_ID,
+                calendarId: activeUserCalendar.id,
                 resource: formData
             }).then(() => {
                 fetchEvents()
@@ -70,7 +69,8 @@ export default function EventCreate({close, refreshEvents}) {
                             <label>Event name:<input onInput={summaryHandler} type="text"/></label>
                         </div>
                         <div className="input-wrapper">
-                            <label>Event start time:<input onInput={startTimestampHandler} type="datetime-local"/></label>
+                            <label>Event start time:<input onInput={startTimestampHandler}
+                                                           type="datetime-local"/></label>
                         </div>
                         <div className="input-wrapper">
                             <label>Event end time:<input onInput={endTimestampHandler} type="datetime-local"/></label>
@@ -79,7 +79,9 @@ export default function EventCreate({close, refreshEvents}) {
 
                     <div className="dialog-controls">
                         <button className="button-rounded button-secondary" onClick={close}>Cancel</button>
-                        <button className="button-rounded button-orange" onClick={submitEvent} disabled={formDisabled}>Submit</button>
+                        <button className="button-rounded button-orange" onClick={submitEvent}
+                                disabled={formDisabled}>Submit
+                        </button>
                     </div>
                 </div>
             </div>

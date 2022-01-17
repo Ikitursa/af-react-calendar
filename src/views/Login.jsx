@@ -23,7 +23,8 @@ export default function Login() {
             <div className="wrapper-card login">
                 <h1>Calendar</h1>
                 <img src={calendarLogo} alt="Calendar"/>
-                <button className="button-rounded button-sign-in button-orange" onClick={signIn}>Sign in with Google</button>
+                <button className="button-rounded button-sign-in button-orange" onClick={signIn}>Sign in with Google
+                </button>
             </div>
         </div>
     )
