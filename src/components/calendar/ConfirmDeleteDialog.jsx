@@ -1,27 +1,28 @@
 import {format, parseISO} from "date-fns"
-import {EventsContext} from "../../contexts/RefreshEvents"
+import {CalendarContext} from "../../contexts/CalendarContext"
 import {useContext} from "react"
+import googleEventDateFormatter from "../../utils/eventDateFormatter";
 
 export default function ConfirmDeleteDialog({close, event}) {
 
-    const {fetchEvents} = useContext(EventsContext)
+    const {fetchEvents, activeUserCalendar} = useContext(CalendarContext)
 
     // prepare dates for display
     const dateTime = {
-        date: format(parseISO(event.start.dateTime), 'dd.MM.yyyy'),
-        startTime: format(parseISO(event.start.dateTime), 'HH:mm'),
-        endTime: format(parseISO(event.end.dateTime), 'HH:mm'),
+        date: format(googleEventDateFormatter(event, 'start'), 'dd.MM.yyyy.'),
+        startTime: format(googleEventDateFormatter(event, 'start'), 'HH:mm'),
+        endTime: format(googleEventDateFormatter(event, 'end'), 'HH:mm'),
     }
 
     // sends an API call to delete the event
     const deleteEvent = () => {
         window.gapi.client.calendar.events.delete({
-            calendarId: process.env.REACT_APP_API_CALENDAR_ID,
+            calendarId: activeUserCalendar.id,
             eventId: event.id
         }).then(() => {
             fetchEvents()
             close()
-        }).catch(error=> {
+        }).catch(error => {
             console.log(error)
             alert(error.result.error.message)
         })
@@ -36,7 +37,7 @@ export default function ConfirmDeleteDialog({close, event}) {
                             <p>Are you sure you want to delete:</p>
                             <p className="event-title">{event.summary}</p>
                             <p>{dateTime.date}</p>
-                            <p>{dateTime.startTime} - {dateTime.endTime}</p>
+                            <p>{event.start.dateTime ? `${dateTime.startTime} - ${dateTime.endTime}` : 'All-day'}</p>
                         </div>
 
                         <div className="dialog-controls">

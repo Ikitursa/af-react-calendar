@@ -1,18 +1,20 @@
 import {format, parseISO} from "date-fns"
 import {useContext, useState} from "react"
 import ConfirmDeleteDialog from "./ConfirmDeleteDialog"
-import {EventsContext} from "../../contexts/RefreshEvents";
+import {CalendarContext} from "../../contexts/CalendarContext";
+import googleEventDateFormatter from '../../utils/eventDateFormatter'
 
 export default function EventRow({event}) {
 
     // prepare dates for display
     const dateTime = {
-        date: format(parseISO(event.start.dateTime), 'dd.MM.yyyy.'),
-        startTime: format(parseISO(event.start.dateTime), 'HH:mm'),
-        endTime: format(parseISO(event.end.dateTime), 'HH:mm'),
+        date: format(googleEventDateFormatter(event, 'start'), 'dd.MM.yyyy.'),
+        startTime: format(googleEventDateFormatter(event, 'start'), 'HH:mm'),
+        endTime: format(googleEventDateFormatter(event, 'end'), 'HH:mm'),
     }
 
-    const {selectedRange} = useContext(EventsContext)
+    const {selectedRange, writeAccess} = useContext(CalendarContext)
+
 
     // toggles the delete confirmation popup
     const [deleteDialogVisible, setDeleteDialogVisible] = useState(false)
@@ -29,13 +31,14 @@ export default function EventRow({event}) {
                 <div className="event-name">{event.summary}</div>
                 <div className="event-time-date">
                     {selectedRange === 30 && <div className="date">{dateTime.date}</div>}
-                    <div className="time">{dateTime.startTime} - {dateTime.endTime}</div>
+                    <div className="time">{event.start.dateTime ? `${dateTime.startTime} - ${dateTime.endTime}` : 'All-day'}</div>
                 </div>
             </div>
-            
-            <div className="event-controls">
-                <button className="button-rounded button-secondary" onClick={handleDelete}>Delete</button>
-            </div>
+            {
+                writeAccess && <div className="event-controls">
+                    <button className="button-rounded button-secondary" onClick={handleDelete}>Delete</button>
+                </div>
+            }
         </div>
     )
 }
