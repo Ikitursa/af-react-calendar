@@ -1,5 +1,5 @@
 import {forIn, groupBy} from "lodash";
-import {format, parseISO, parse} from "date-fns";
+import {format} from "date-fns";
 import googleEventDateFormatter from "./eventDateFormatter";
 
 /**
