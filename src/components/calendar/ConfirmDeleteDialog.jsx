@@ -1,4 +1,4 @@
-import {format, parseISO} from "date-fns"
+import {format} from "date-fns"
 import {CalendarContext} from "../../contexts/CalendarContext"
 import {useContext} from "react"
 import googleEventDateFormatter from "../../utils/eventDateFormatter";

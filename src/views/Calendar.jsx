@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react'
-import {addDays, endOfDay, isWithinInterval, startOfToday, parseISO, parse} from "date-fns"
+import {addDays, endOfDay, isWithinInterval, startOfToday, formatRFC3339} from "date-fns"
 
 import CalendarRangeSelector from "../components/calendar/CalendarRangeSelector"
 import EventGroup from "../components/calendar/EventGroup"
@@ -62,7 +62,8 @@ export default function Calendar() {
             showDeleted: false,
             singleEvents: true,
             maxResults: 100,
-            orderBy: 'startTime'
+            orderBy: 'startTime',
+            timeMin: formatRFC3339(startOfToday())
         }).then(response => {
             setCalendarEvents(response.result.items)
         }).catch(error => console.log('gapi calendar error fetch events', error))
